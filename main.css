@@ -1,0 +1,83 @@
+@font-face{
+    font-family: 'pingfang';
+    src: url('font/PingFang\ Medium.ttf');
+}
+*{
+    font-family: 'pingfang';
+}
+ul{
+    width:100%;
+    padding:0;
+    margin:0;
+    list-style-type:none;
+  }
+  ul li{
+    line-height: 30px;
+    border-bottom: 1px solid aliceblue;
+  }
+  ul li a{  display: block;
+    width:100%;
+    text-decoration:none;
+    letter-spacing: 0.8em;
+    color:white;
+    background-color: #74bad4;
+    border-right:1px solid white;
+  
+  }
+  a:hover 
+  {
+    background-color:#6aacec;
+  }
+  .fixed{
+    margin-bottom: 75px;
+}
+.fixed footer{
+  position: fixed;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  height: 70px;
+  width: 100%;
+  color: aliceblue;
+  background-color: #74bad4;
+  overflow: hidden;
+}
+.container{
+  position: relative;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.bar{
+  text-align: center;
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 300px;
+}
+.right{
+  margin-left: 300px;
+}
+.title{
+  width: 100%;
+  height: 80px;
+  text-align: center;
+  background-color: #74bad4;
+  border: 1px solid aliceblue;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.title img{
+  position: relative;
+  top:-10px;
+}
+.content{
+  position: relative;
+  top: 2px;
+  background-color: aliceblue;
+}

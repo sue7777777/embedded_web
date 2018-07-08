@@ -1,0 +1,10 @@
+{
+    "name": "linux-pro",
+    "author": "jzq",
+    "version": "1.0.0",
+    "description": "智慧安全帽前端页面，基于node.js环境",
+    "main": "login.html",
+    "scripts": {
+        "start": "login.html"
+    }
+}

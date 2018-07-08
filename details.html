@@ -1,0 +1,166 @@
+<style>
+.d-left{
+    position: absolute;
+    width: 260px;
+    height: 540px;
+}
+.d-infos{
+    height: 330px;
+    width: 260px;
+    border: 1px solid #6aaeca;
+    background-color: aliceblue;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 20px;
+}
+.d-alert{
+    height: 200px;
+    width: 260px;
+    position: relative;
+    top: 10px;
+    border: 1px solid #6aaeca;
+    background-color: aliceblue;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding-left: 20px;
+    padding-top: 20px;
+    text-align: center;
+}
+.d-right{
+    height: 538px;
+    position: relative;
+    left: 270px;
+    margin-right: 270px;
+    border: 1px solid #6aaeca;
+    background-color: aliceblue;
+}
+</style>
+
+<html>
+<link rel="stylesheet" type="text/css" href="main.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>智慧安全帽-详情页</title>
+<body>
+  <div class="container">
+  <div class="bar">
+        <ul>
+            <li><a href="main.html">主页面</a></li>
+            <li><a onclick="detail()">详情页</a></li>
+            <li><a onclick="contact()" style="cursor: pointer;">联系我们</a></li>
+        </ul>
+    </div>
+  <div class="right">
+        <div class="title">
+            <img src="pic/logo_text.png" alt="logo">
+        </div>
+        <div class="content" id="update">
+            <div class="d-left">
+                <div class="d-infos">
+                    <p>欢迎您 管理员root</p>
+                    <p>您正在查看的是：</p>
+                    <p>员工 <span id="name"></span></p>
+                    <p>工号：<span id="num"></span></p>
+                    <P>出勤状态：<span id="status"></span></P>
+                    <P>----更多功能等待开发----</P>
+                </div>
+                <div class="d-alert"> 
+                    <p>员工安全状态：</p>
+                    <p id="safe"></p>
+                    <p>员工地图定位-></p>
+                </div>
+            </div>
+            <div class="d-right" id="map">
+                
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="fixed">
+      <footer class="footer" align="center">
+      开发组：<br/>贾婷婷(硬件) 蔡昕韵(后台) 蒋正琪(前端)
+      </footer>
+  </div>
+</body>
+</html>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=kgVt8NjKGSkGGZeDnYCwrTA80ikEqm0e"></script>
+<script>
+var req;
+window.onload=getURL();       //加载员工信息
+
+var map = new BMap.Map("map");    // 创建Map实例
+map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+map.addControl(new BMap.MapTypeControl({
+	mapTypes:[
+        BMAP_NORMAL_MAP,
+        BMAP_HYBRID_MAP
+    ]}));//添加地图类型控件
+map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+map.centerAndZoom(point,12);
+var point = new BMap.Point(116.331398,39.897445);
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+	if(this.getStatus() == BMAP_STATUS_SUCCESS){
+		var mk = new BMap.Marker(r.point);
+		map.addOverlay(mk);
+		map.panTo(r.point);
+	}
+	else {
+		alert('地图加载失败'+this.getStatus());
+	}        
+});
+
+//创建ajax通信
+function ajax(url,func){
+  //跨浏览器的兼容ajax对象
+  if(window.XMLHttpRequest){
+    req=new XMLHttpRequest();
+  }else{
+    //兼容IE
+    req=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  //通信事件
+  req.onreadystatechange = func;
+  //设置传送方式，文件路径，异步处理
+  req.open("POST",url,true);
+  req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+  req.send();
+}
+
+//展示联系页
+function contact(){
+  ajax("contact.html?datetime=new Date.getTime",function(){
+    if(req.readyState == 4){
+      if(req.status == 200 || req.status ==0){
+        document.getElementById("update").innerHTML=req.responseText;
+      }
+    }
+  });
+}
+
+//解析main.html传递的url
+function getURL() {
+    let url=decodeURI(location.href).toString();//当前url
+    //判断用户进入详情页的入口
+    if(url.indexOf('?') != -1){
+        //点击对应员工的详情按钮进入
+        let para=url.split('?')[1].split('&');//?后就是html传递的参数表，每个参数用&分隔开
+        //参数1：工号；参数2：名字；参数3：出勤状态；参数4：打卡时间
+        let num=para[0].substring(para[0].indexOf('=')+1,para[0].length);
+        let name=para[1].substring(para[1].indexOf('=')+1,para[1].length);
+        let status=para[2].substring(para[2].indexOf('=')+1,para[2].length);
+        let safe=para[3].substring(para[3].indexOf('=')+1,para[3].length);
+        //注意中文要decodeURI解码，否则乱码
+        document.getElementById("num").innerText=num;
+        document.getElementById("name").innerText=name;
+        document.getElementById("status").innerText=status;
+        document.getElementById("safe").innerText=safe;
+    }else{
+        //直接从主页面进入
+        document.getElementById("update").innerHTML = "<p>欢迎您 管理员root</p><p>点击主页面详情按钮查询该员工状态</p>";
+    }
+
+}
+</script>

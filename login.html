@@ -1,0 +1,58 @@
+<html>
+<style>
+    span{
+        display: inline-block;
+        width: 100px;
+    }
+    .main{
+        width: 100%;
+        margin-top: 150px;
+        display: table;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .content{
+        display: inline-table;
+        border: 1px solid #6aaeca;
+        width: 300px;
+        height: 200px;
+        padding-top: 50px;
+    }
+    .item{
+        height: 40px;
+        width: 100%;
+    }
+</style>
+
+<body>
+<div class="main">
+    <img src="">
+    <div class="content">
+        <div class="item">
+            <span width="100%">用户名：</span>
+            <input id="login"><br/>
+        </div>
+        <div class="item">
+            <span width="100%">密码：</span>
+            <input id="pwd" type="password"><br/>
+        </div>
+        <p>
+            <input type="button" value="登录" onclick="login()">
+            <span></span>
+            <input type="button" value="取消">
+        </p>
+    </div>  
+</div>
+</body>
+
+<script type="text/javascript">
+ function login(){
+     let uname=document.getElementById("login").value;
+     let upwd=document.getElementById("pwd").value;
+     if(uname=='root' && upwd=='123456'){
+         window.location.href="main.html";
+     }
+ }
+</script>
+</html>
+
